@@ -165,6 +165,7 @@ Bundle 'FuzzyFinder'
 " YCM
 Bundle 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 " omni complete
 Bundle 'vim-scripts/OmniCppComplete'
@@ -172,4 +173,9 @@ Bundle 'vim-scripts/OmniCppComplete'
 " Syntastic
 Bundle 'scrooloose/syntastic'
 
+" for auto complete () and {}, etc
 Bundle 'Raimondi/delimitMate'
+
+" Jedi
+Bundle 'davidhalter/jedi-vim'
+let g:jedi#auto_vim_configuration = 0
