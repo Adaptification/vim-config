@@ -164,3 +164,6 @@ Bundle 'FuzzyFinder'
 "
 " YCM
 Bundle 'Valloric/YouCompleteMe'
+
+" Syntastic
+Bundle 'scrooloose/syntastic'
