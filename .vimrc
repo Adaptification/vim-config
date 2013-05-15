@@ -171,3 +171,5 @@ Bundle 'vim-scripts/OmniCppComplete'
 
 " Syntastic
 Bundle 'scrooloose/syntastic'
+
+Bundle 'Raimondi/delimitMate'
