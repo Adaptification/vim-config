@@ -166,16 +166,32 @@ Bundle 'FuzzyFinder'
 Bundle 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
-
-" omni complete
-Bundle 'vim-scripts/OmniCppComplete'
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 " Syntastic
 Bundle 'scrooloose/syntastic'
+let g:syntastic_python_checkers=['pyflakes']
+
+function! SyntasticPythonToggle()
+	if g:syntastic_python_checkers == ['pyflakes']
+		let g:syntastic_python_checkers=['pylint']
+	else 
+		let g:syntastic_python_checkers=['pyflakes']
+	endif
+endfunction
+command SyntasticPythonToggle call SyntasticPythonToggle()
 
 " for auto complete () and {}, etc
 Bundle 'Raimondi/delimitMate'
 
 " Jedi
-Bundle 'davidhalter/jedi-vim'
-let g:jedi#auto_vim_configuration = 0
+"Bundle 'davidhalter/jedi-vim'
+"let g:jedi#auto_vim_configuration = 0
+
+" Multi-cursors
+Bundle 'terryma/vim-multiple-cursors'
+
+" NerdTree
+Bundle 'scrooloose/nerdtree'
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+nmap gf :NERDTreeToggle .<CR>
