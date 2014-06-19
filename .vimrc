@@ -78,6 +78,16 @@ set autochdir		" Open file browser relative to current file
 filetype plugin on "indent deleted
 syntax on
 
+" spell check
+function! SpellToggle()
+	if &l:spell == 0
+		:setlocal spell spelllang=en_us
+	else
+		:setlocal nospell
+	endif
+endfunction
+noremap <silent> <F8> :call SpellToggle()<CR>
+
 " color things	
 set t_Co=256
 colorscheme gentooish 
@@ -128,48 +138,49 @@ if	has("multi_byte")
 endif
 
 " Pathogen 
-call pathogen#infect()
+"call pathogen#infect()
 " Vundle
 set nocompatible
 filetype off
-filetype plugin indent on "indent deleted
+"filetype plugin indent on "indent deleted
 
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+"call vundle#rc()
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " My Bundles here:
 
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-dispatch.git'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-ragtag'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-dispatch.git'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-ragtag'
 
-Bundle 'Lokaltog/vim-easymotion'
+Plugin 'Lokaltog/vim-easymotion'
 let g:EasyMotion_leader_key = '<Leader>' 
 
 "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 " vim-scripts repos
-Bundle 'L9'
-Bundle 'FuzzyFinder'
+Plugin 'L9'
+Plugin 'FuzzyFinder'
 "Bundle 'terryma/vim-multiple-cursors'
 " non github repos
 "Bundle 'git://git.wincent.com/command-t.git'}
 "
 " YCM
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 
 " Syntastic
-Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 let g:syntastic_python_checkers=['pyflakes']
 
 function! SyntasticPythonToggle()
@@ -182,16 +193,21 @@ endfunction
 command SyntasticPythonToggle call SyntasticPythonToggle()
 
 " for auto complete () and {}, etc
-Bundle 'Raimondi/delimitMate'
+Plugin 'Raimondi/delimitMate'
 
 " Jedi
 "Bundle 'davidhalter/jedi-vim'
 "let g:jedi#auto_vim_configuration = 0
 
 " Multi-cursors
-Bundle 'terryma/vim-multiple-cursors'
+Plugin 'terryma/vim-multiple-cursors'
 
 " NerdTree
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 nmap gf :NERDTreeToggle .<CR>
+set noexpandtab
+
+" end vundle
+call vundle#end()
+filetype plugin indent on
