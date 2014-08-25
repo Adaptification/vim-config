@@ -98,6 +98,7 @@ endif
 " tabs sizes for various file types
 autocmd FileType lisp setlocal shiftwidth=2 tabstop=2
 autocmd FileType html setlocal shiftwidth=2 tabstop=2
+autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 autocmd FileType asm setlocal shiftwidth=8 tabstop=8
 
 " for closing brackets automatically
@@ -178,6 +179,7 @@ Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
+set tags+=~/projects/work/mchp/mchp-dev/tags
 
 " Syntastic
 Plugin 'scrooloose/syntastic'
@@ -211,3 +213,8 @@ set noexpandtab
 " end vundle
 call vundle#end()
 filetype plugin indent on
+
+" other remaps
+nnoremap gt :tabnew <CR>
+nnoremap gn :tabnext <CR>
+nnoremap gp :tabpre <CR>
