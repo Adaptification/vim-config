@@ -162,6 +162,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-ragtag'
+Plugin 'tpope/vim-obsession'
 
 Plugin 'Lokaltog/vim-easymotion'
 let g:EasyMotion_leader_key = '<Leader>' 
