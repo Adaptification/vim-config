@@ -211,6 +211,8 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nmap gf :NERDTreeToggle .<CR>
 set noexpandtab
 
+Plugin 'wting/rust.vim'
+
 " end vundle
 call vundle#end()
 filetype plugin indent on
@@ -219,3 +221,7 @@ filetype plugin indent on
 nnoremap gt :tabnew <CR>
 nnoremap gn :tabnext <CR>
 nnoremap gp :tabpre <CR>
+nnoremap j gj
+nnoremap k gk
+set wildmenu
+set wildmode=longest:full,full
