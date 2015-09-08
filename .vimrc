@@ -8,7 +8,7 @@ set tabstop=4       " Number of spaces that a <Tab> in the file counts for.
  
 set shiftwidth=4    " Number of spaces to use for each step of (auto)indent.
  
-"set expandtab       " Use the appropriate number of spaces to insert a <Tab>.
+set expandtab       " Use the appropriate number of spaces to insert a <Tab>.
                     " Spaces are used in indents with the '>' and '<' commands
                     " and when 'autoindent' is on. To insert a real tab when
                     " 'expandtab' is on, use CTRL-V <Tab>.
@@ -47,10 +47,10 @@ set autoindent      " Copy indent from current line when starting a new line
                     " (typing <CR> in Insert mode or when using the "o" or "O"
                     " command).
  
-set textwidth=100    " Maximum width of text that is being inserted. A longer
+set textwidth=1000    " Maximum width of text that is being inserted. A longer
                     " line will be broken after white space to get this width.
  
-set formatoptions=c,q,r,t " This is a sequence of letters which describes how
+set formatoptions=c,q,r " This is a sequence of letters which describes how
                     " automatic formatting is to be done.
                     "
                     " letter    meaning when present in 'formatoptions'
@@ -102,10 +102,12 @@ autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 autocmd FileType asm setlocal shiftwidth=8 tabstop=8
 
 " for closing brackets automatically
-inoremap {      {}<Left>
-inoremap {<CR>  {<CR>}<Esc>O
-inoremap {{     {
-inoremap {}     {}
+function! AutoBracket()
+	inoremap {      {}<Left>
+	inoremap {<CR>  {<CR>}<Esc>O
+	inoremap {{     {
+	inoremap {}     {}
+endfunction
 
 " but don't do this for html files
 function! ResetBracket()
@@ -114,7 +116,10 @@ function! ResetBracket()
 	inoremap {{     {{
 	inoremap {}     {}
 endfunction
+autocmd Filetype * call AutoBracket()
 autocmd Filetype xml,html,xhtml call ResetBracket()
+
+autocmd Filetype twig setlocal filetype=htmldjango 
 
 " Django specific
 nnoremap gL :setfiletype htmldjango<CR>
@@ -123,7 +128,7 @@ nnoremap gL :setfiletype htmldjango<CR>
 "au FileType c,cpp setlocal comments-=:// comments+=f://
 
 " fix leader key
-let mapleader = ","
+" let mapleader = ","
 
 " let ; map to : for commands
 " hit ;; twice for normal use (repeat f or t)
@@ -138,20 +143,18 @@ if	has("multi_byte")
 	set	encoding=utf-8
 endif
 
-" Pathogen 
-"call pathogen#infect()
 " Vundle
 set nocompatible
 filetype off
 "filetype plugin indent on "indent deleted
 
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 "call vundle#rc()
 call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " My Bundles here:
 
@@ -165,22 +168,15 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-obsession'
 
 Plugin 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = '<Leader>' 
+let g:EasyMotion_leader_key = ',' 
 
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-" vim-scripts repos
-Plugin 'L9'
-Plugin 'FuzzyFinder'
-"Bundle 'terryma/vim-multiple-cursors'
-" non github repos
-"Bundle 'git://git.wincent.com/command-t.git'}
-"
 " YCM
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
-set tags+=~/projects/work/mchp/mchp-dev/tags
+set tags+=~/sites/tags
+set tags+=~/services/tags
 
 " Syntastic
 Plugin 'scrooloose/syntastic'
@@ -198,20 +194,42 @@ command SyntasticPythonToggle call SyntasticPythonToggle()
 " for auto complete () and {}, etc
 Plugin 'Raimondi/delimitMate'
 
-" Jedi
-"Bundle 'davidhalter/jedi-vim'
-"let g:jedi#auto_vim_configuration = 0
-
 " Multi-cursors
 Plugin 'terryma/vim-multiple-cursors'
 
 " NerdTree
 Plugin 'scrooloose/nerdtree'
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-nmap gf :NERDTreeToggle .<CR>
-set noexpandtab
+nmap <silent>gf :NERDTreeToggle .<CR>
+"let NERDTreeChDirMode=2
 
+" Rust syntax highlighting 
 Plugin 'wting/rust.vim'
+
+" php stuff ugh
+" this doesn't even work right
+" Plugin 'Shougo/unite.vim'
+" Plugin 'Shougo/vimproc'
+" Plugin 'm2mdas/phpcomplete-extended'
+" Plugin 'm2mdas/phpcomplete-extended-symfony'
+
+" searching stuff
+Plugin 'rking/ag.vim'
+let g:ag_working_path_mode="r"
+let g:ag_highlight=1
+cnoreabbrev ag Ag
+
+Plugin 'kien/ctrlp.vim'
+if executable('ag')
+  " Use ag in CtrlP for listing files.
+  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore-case --skip-vcs-ignores'
+endif
+
+" ctrlp stuff
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 " end vundle
 call vundle#end()
@@ -223,5 +241,9 @@ nnoremap gn :tabnext <CR>
 nnoremap gp :tabpre <CR>
 nnoremap j gj
 nnoremap k gk
+
+" clear search
+nnoremap <silent> ,a :let @/ = "" <CR>
+
 set wildmenu
 set wildmode=longest:full,full
