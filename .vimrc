@@ -191,6 +191,10 @@ let g:easytags_auto_highlight = 0
 Plugin 'majutsushi/tagbar'
 nmap <silent>gv :TagbarToggle<CR>
 
+" html tags
+Plugin 'alvan/vim-closetag'
+let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.twig"
+
 " Syntastic
 Plugin 'scrooloose/syntastic'
 let g:syntastic_python_checkers=['pyflakes']
