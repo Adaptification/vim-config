@@ -3,21 +3,21 @@
 
 " For multi-byte character support (CJK support, for example):
 "set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,gb18030,latin1
-       
+
 set tabstop=4       " Number of spaces that a <Tab> in the file counts for.
- 
+
 set shiftwidth=4    " Number of spaces to use for each step of (auto)indent.
- 
+
 set expandtab       " Use the appropriate number of spaces to insert a <Tab>.
                     " Spaces are used in indents with the '>' and '<' commands
                     " and when 'autoindent' is on. To insert a real tab when
                     " 'expandtab' is on, use CTRL-V <Tab>.
- 
+
 set smarttab        " When on, a <Tab> in front of a line inserts blanks
                     " according to 'shiftwidth'. 'tabstop' is used in other
                     " places. A <BS> will delete a 'shiftwidth' worth of space
                     " at the start of the line.
- 
+
 set showcmd         " Show (partial) command in status line.
 
 set number          " Show line numbers.
@@ -26,31 +26,31 @@ set showmatch       " When a bracket is inserted, briefly jump to the matching
                     " one. The jump is only done if the match can be seen on the
                     " screen. The time to show the match can be set with
                     " 'matchtime'.
- 
+
 set hlsearch        " When there is a previous search pattern, highlight all
                     " its matches.
- 
+
 set incsearch       " While typing a search command, show immediately where the
                     " so far typed pattern matches.
- 
+
 set ignorecase      " Ignore case in search patterns.
- 
+
 set smartcase       " Override the 'ignorecase' option if the search pattern
                     " contains upper case characters.
- 
+
 set backspace=2     " Influences the working of <BS>, <Del>, CTRL-W
                     " and CTRL-U in Insert mode. This is a list of items,
                     " separated by commas. Each item allows a way to backspace
                     " over something.
- 
+
 set autoindent      " Copy indent from current line when starting a new line
                     " (typing <CR> in Insert mode or when using the "o" or "O"
                     " command).
- 
-set textwidth=1000    " Maximum width of text that is being inserted. A longer
+
+set textwidth=80    " Maximum width of text that is being inserted. A longer
                     " line will be broken after white space to get this width.
- 
-set formatoptions=c,q,r " This is a sequence of letters which describes how
+
+set formatoptions=c,q,r,t " This is a sequence of letters which describes how
                     " automatic formatting is to be done.
                     "
                     " letter    meaning when present in 'formatoptions'
@@ -59,22 +59,22 @@ set formatoptions=c,q,r " This is a sequence of letters which describes how
                     "           the current comment leader automatically.
                     " q         Allow formatting of comments with "gq".
                     " r         Automatically insert the current comment leader
-                    "           after hitting <Enter> in Insert mode. 
+                    "           after hitting <Enter> in Insert mode.
                     " t         Auto-wrap text using textwidth (does not apply
                     "           to comments)
- 
+
 set ruler           " Show the line and column number of the cursor position,
                     " separated by a comma.
- 
+
 set background=dark " When set to "dark", Vim will try to use colors that look
                     " good on a dark background. When set to "light", Vim will
                     " try to use colors that look good on a light background.
                     " Any other value is illegal.
- 
+
 set mouse=a         " Enable the use of the mouse.
 
 set autochdir		" Open file browser relative to current file
- 
+
 filetype plugin on "indent deleted
 syntax on
 
@@ -88,11 +88,17 @@ function! SpellToggle()
 endfunction
 noremap <silent> <F8> :call SpellToggle()<CR>
 
-" color things	
+function! VagrantPush()
+    :silent !vagrant unify-push
+    :redraw!
+endfunction
+noremap <silent> <c-i> :call VagrantPush()<CR>
+
+" color things
 set t_Co=256
-colorscheme gentooish 
+colorscheme gentooish
 if has("gui_running")
-	colorscheme desert  
+	colorscheme desert
 endif
 
 " tabs sizes for various file types
@@ -119,7 +125,7 @@ endfunction
 autocmd Filetype * call AutoBracket()
 autocmd Filetype xml,html,xhtml call ResetBracket()
 
-autocmd Filetype twig setlocal filetype=htmldjango 
+autocmd Filetype twig setlocal filetype=htmldjango
 
 " Django specific
 nnoremap gL :setfiletype htmldjango<CR>
@@ -136,7 +142,7 @@ map ; :
 nnoremap ;; ;
 
 set nocp
-filetype plugin on 
+filetype plugin on
 
 " utf=8
 if	has("multi_byte")
@@ -153,7 +159,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
+" required!
 Plugin 'gmarik/Vundle.vim'
 
 " My Bundles here:
@@ -168,15 +174,22 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-obsession'
 
 Plugin 'Lokaltog/vim-easymotion'
-let g:EasyMotion_leader_key = ',' 
+let g:EasyMotion_leader_key = ','
 
 " YCM
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_global_conf.py'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
-set tags+=~/sites/tags
-set tags+=~/services/tags
+
+" TAGS omg
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+let g:easytags_async = 1
+let g:easytags_dynamic_files = 1
+let g:easytags_auto_highlight = 0
+Plugin 'majutsushi/tagbar'
+nmap <silent>gv :TagbarToggle<CR>
 
 " Syntastic
 Plugin 'scrooloose/syntastic'
@@ -185,7 +198,7 @@ let g:syntastic_python_checkers=['pyflakes']
 function! SyntasticPythonToggle()
 	if g:syntastic_python_checkers == ['pyflakes']
 		let g:syntastic_python_checkers=['pylint']
-	else 
+    else
 		let g:syntastic_python_checkers=['pyflakes']
 	endif
 endfunction
@@ -203,7 +216,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 nmap <silent>gf :NERDTreeToggle .<CR>
 "let NERDTreeChDirMode=2
 
-" Rust syntax highlighting 
+" Rust syntax highlighting
 Plugin 'wting/rust.vim'
 
 " php stuff ugh
@@ -212,6 +225,12 @@ Plugin 'wting/rust.vim'
 " Plugin 'Shougo/vimproc'
 " Plugin 'm2mdas/phpcomplete-extended'
 " Plugin 'm2mdas/phpcomplete-extended-symfony'
+Plugin 'joonty/vdebug.git'
+let g:vdebug_options = {}
+let g:vdebug_options["port"] = 9000
+let g:vdebug_options["path_maps"] = {
+\    "/vagrant": "/Users/mikeattwood/sites/CyberSponse"
+\}
 
 " searching stuff
 Plugin 'rking/ag.vim'
@@ -231,6 +250,13 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
+" go
+Plugin 'fatih/vim-go'
+
+" status line
+Plugin 'bling/vim-airline'
+set laststatus=2
+
 " end vundle
 call vundle#end()
 filetype plugin indent on
@@ -247,3 +273,4 @@ nnoremap <silent> ,a :let @/ = "" <CR>
 
 set wildmenu
 set wildmode=longest:full,full
+set noswapfile
