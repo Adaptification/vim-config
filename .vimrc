@@ -2,7 +2,7 @@
 " See: http://vimdoc.sourceforge.net/htmldoc/options.html for details
 
 " For multi-byte character support (CJK support, for example):
-"set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,gb18030,latin1
+set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,gb18030,latin1
 
 set tabstop=4       " Number of spaces that a <Tab> in the file counts for.
 
@@ -160,7 +160,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle
 " required!
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " My Bundles here:
 
@@ -260,6 +260,7 @@ Plugin 'fatih/vim-go'
 " status line
 Plugin 'bling/vim-airline'
 set laststatus=2
+let g:airline_powerline_fonts = 1
 
 " end vundle
 call vundle#end()
